@@ -1,22 +1,24 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ResponseAuthPayload, SignUpPayload, SignInPayload } from '../../types';
+import {
+	ResponseAuthPayload,
+	SignUpPayload,
+	SignInPayload,
+	User,
+} from '../../types';
 
 type InitialState = {
-	user: {
-		tag: string;
-		email: string;
-		avatar: null | string;
-		token: string;
-	};
+	user: User;
 	loading: boolean;
 };
 
 const initialState: InitialState = {
 	user: {
+		id: '',
 		tag: '',
 		email: '',
 		avatar: null,
 		token: '',
+		streamToken: '',
 	},
 	loading: false,
 };

@@ -6,6 +6,7 @@ import {
 import { call, takeEvery, put } from 'redux-saga/effects';
 import ApiBase from '../../../api/api.base';
 import { ApiResponse, ResponseAuthPayload } from '../../../types';
+import { History } from '../../../constants/history';
 
 function* workerSignUp(action: ReturnType<typeof reqSingUp>) {
 	try {
