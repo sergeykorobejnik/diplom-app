@@ -1,29 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {
 	Box,
-	Button,
-	Center,
-	Fade,
 	Flex,
 	IconButton,
-	Input,
-	Link,
-	LinkBox,
-	Popover,
-	PopoverContent,
-	Spinner,
-	Stack,
 	styled,
 	Text,
 	useDisclosure,
 } from '@chakra-ui/react';
-import { HiOutlinePencilAlt } from 'react-icons/all';
-import { useForm } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
-import { setUsersByTag } from '../../../redux/reducers/channels.reducer';
-import { RootStore } from '../../../redux';
-import apiBase from '../../../api/api.base';
+import { BiLogOut, HiOutlinePencilAlt, RiLogoutBoxLine } from 'react-icons/all';
+import { useDispatch } from 'react-redux';
 import CreateChatModal from './CreateChatModal';
+import { clearAuth } from '../../../redux/reducers/auth.reducer';
 
 interface UserBadgeProps {
 	userTag: string;
@@ -41,6 +28,7 @@ const FlexWrapper = styled(Flex, {
 
 const UserBadge: React.FC<UserBadgeProps> = ({ userTag }) => {
 	const { isOpen, onOpen, onClose, onToggle } = useDisclosure();
+	const dispatch = useDispatch();
 	return (
 		<Box w="100%" p={5}>
 			<Box>
@@ -54,12 +42,21 @@ const UserBadge: React.FC<UserBadgeProps> = ({ userTag }) => {
 						</Text>{' '}
 						{userTag}
 					</Text>
-					<IconButton
-						boxSize={10}
-						onClick={onOpen}
-						aria-label={'add-channel'}
-						icon={<HiOutlinePencilAlt />}
-					/>
+					<Flex gap="10px">
+						<IconButton
+							backgroundColor={'red.500'}
+							boxSize={10}
+							onClick={() => dispatch(clearAuth())}
+							aria-label={'add-channel'}
+							icon={<RiLogoutBoxLine />}
+						/>
+						<IconButton
+							boxSize={10}
+							onClick={onOpen}
+							aria-label={'add-channel'}
+							icon={<HiOutlinePencilAlt />}
+						/>
+					</Flex>
 				</FlexWrapper>
 			</Box>
 			<CreateChatModal

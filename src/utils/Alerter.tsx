@@ -25,11 +25,13 @@ const ToastMessage: React.FC<IToastMessageProps> = ({
 	function getBorderColor() {
 		switch (variant) {
 			case 'error':
-				return theme.colors.red['400'];
+				return theme.colors.red['500'];
 			case 'warning':
 				return '#fca503';
 			case 'info':
 				return '#0384fc';
+			case 'success':
+				return 'green.500';
 			default:
 				return 'transparent';
 		}
@@ -38,17 +40,15 @@ const ToastMessage: React.FC<IToastMessageProps> = ({
 	return (
 		<Box
 			onClick={onClose}
-			borderRadius="30px"
+			borderRadius="5px"
 			bg="white"
 			padding="8px 12px"
+			backgroundColor={getBorderColor()}
 			border={`1px solid ${getBorderColor()}`}
 			boxShadow="0px 6px 24px rgba(59, 41, 2, 0.08);">
 			<HStack>
 				<Box w={{ base: '100%', md: '300px' }}>
-					<Text
-						color="neutral.4"
-						variant="bodyMedium"
-						fontWeight="400">
+					<Text color="white" variant="bodyMedium" fontWeight="400">
 						{message}
 					</Text>
 				</Box>

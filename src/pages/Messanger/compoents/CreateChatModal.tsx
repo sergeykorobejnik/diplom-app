@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
 	Button,
 	Center,
@@ -18,10 +18,14 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { RootStore } from '../../../redux';
-import { setUsersByTag } from '../../../redux/reducers/channels.reducer';
+import {
+	clearUsersByTag,
+	setUsersByTag,
+} from '../../../redux/reducers/channels.reducer';
 import apiBase from '../../../api/api.base';
 import { InputText } from '../../../components';
 import { Controller } from 'react-hook-form';
+import { Alerter } from '../../../utils';
 
 type CreateChatModalProps = {
 	isOpen: boolean;
@@ -35,7 +39,7 @@ const CreateChatModal: React.FC<CreateChatModalProps> = ({
 	onClose,
 	userTag,
 }) => {
-	const dipatch = useDispatch();
+	const dispatch = useDispatch();
 
 	const {
 		register,
@@ -43,40 +47,65 @@ const CreateChatModal: React.FC<CreateChatModalProps> = ({
 		control,
 		formState: { errors },
 		getValues,
+		reset,
 	} = useForm({
 		defaultValues: {
 			userByTag: '',
 			selectedUser: '',
-			channelName: '',
 		},
 	});
+
+	const [submitting, setSubmitting] = useState(false);
 
 	const { loading, users }: { loading: boolean; users: Array<string> } =
 		useSelector((state: RootStore) => state.channels.usersByTag);
 
 	useEffect(() => {
-		const { unsubscribe } = watch(({ userByTag, channelName }) => {
-			if (userByTag && !channelName) {
-				dipatch(setUsersByTag(userByTag));
+		const { unsubscribe } = watch(({ userByTag, selectedUser }) => {
+			if (userByTag && !selectedUser) {
+				dispatch(setUsersByTag(userByTag));
 			}
 		});
 		return () => unsubscribe();
 	}, [watch, users]);
 
+	useEffect(
+		() => () => {
+			dispatch(clearUsersByTag());
+			reset();
+		},
+		[],
+	);
+
 	const selectedUser = watch('selectedUser');
 
 	const handleChannelCreation = async () => {
+		setSubmitting(true);
 		const values = getValues();
-		await apiBase.post('/api/v1/channels/create', {
-			userTag,
-			recipientTag: values.selectedUser,
-			channelName: values.channelName,
-		});
+		await apiBase
+			.post('/api/v1/channels/create', {
+				userTag,
+				recipientTag: values.selectedUser,
+			})
+			.then(res => {
+				if (!res.success) {
+					Alerter.error(res.errors?.[0]);
+				} else {
+					Alerter.success('Channel was created');
+				}
+				setSubmitting(false);
+			})
+			.catch(e => {
+				console.log(e);
+				Alerter.error('Error during channel creation');
+				setSubmitting(false);
+			});
 		onClose();
+		setSubmitting(false);
 	};
 
 	return (
-		<Modal isOpen={true} onClose={onClose} size="md">
+		<Modal isOpen={isOpen} onClose={onClose} size="md">
 			<ModalContent backgroundColor="blue.600">
 				<ModalCloseButton />
 				<ModalHeader color="white">Add new channel</ModalHeader>
@@ -128,21 +157,8 @@ const CreateChatModal: React.FC<CreateChatModalProps> = ({
 						)}
 						{selectedUser && (
 							<>
-								<InputText
-									{...register('channelName', {
-										required: true,
-										maxLength: 10,
-									})}
-									color="white"
-									mb="15px"
-									w="100%"
-									variant="filled"
-									colorScheme="teal"
-									placeholder="add name for your conversation?"
-									errorMsg={errors?.channelName?.message}
-								/>
 								<Button
-									isDisabled={!!errors?.channelName?.message}
+									isLoading={submitting}
 									backgroundColor="teal.400"
 									onClick={() => handleChannelCreation()}>
 									Create channel

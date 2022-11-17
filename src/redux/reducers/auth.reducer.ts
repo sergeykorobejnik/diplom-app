@@ -5,6 +5,7 @@ import {
 	SignInPayload,
 	User,
 } from '../../types';
+import { History } from '../../constants/history';
 
 type InitialState = {
 	user: User;
@@ -13,6 +14,7 @@ type InitialState = {
 
 const initialState: InitialState = {
 	user: {
+		name: '',
 		id: '',
 		tag: '',
 		email: '',
@@ -47,6 +49,11 @@ const authReducer = createSlice({
 		reqSingInError(state) {
 			state.loading = false;
 		},
+		clearAuth(state) {
+			state.loading = false;
+			state.user = { ...initialState.user };
+			History.push('/auth/sign-in');
+		},
 	},
 });
 
@@ -57,6 +64,7 @@ export const {
 	reqSignIn,
 	reqSingInSuccess,
 	reqSingInError,
+	clearAuth,
 } = authReducer.actions;
 
 export default authReducer.reducer;

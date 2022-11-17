@@ -19,6 +19,7 @@ import { useClient } from '../../hooks/useClient';
 
 import './styles/messenger.styles.scss';
 import UserBadge from './compoents/UserBadge';
+import { Alerter } from '../../utils';
 
 // const client = StreamChat.getInstance(import.meta.env.VITE_STREAM_API_KEY);
 

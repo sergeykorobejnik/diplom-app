@@ -59,11 +59,10 @@ export const InputText = React.forwardRef<null, IInputProps>(
 			<FormControl isInvalid={!!errorMsg} {...formControlProps}>
 				{label && (
 					<FormLabel
-						mb={5}
+						mb={2}
 						color={'white'}
-						fontSize="14px"
-						lineHeight="12px"
-						fontWeight={500}
+						fontSize="16px"
+						fontWeight={400}
 						{...formLabelProps}>
 						{label}
 					</FormLabel>
@@ -81,21 +80,26 @@ export const InputText = React.forwardRef<null, IInputProps>(
 								: type
 						}
 						height="48px"
-						fontSize={'14px'}
+						fontSize={'16px'}
 						fontWeight={500}
 						color={'white'}
 						_placeholder={{ color: 'neutral.4' }}
 						border={'2px solid'}
-						backgroundColor="blue.200"
+						backgroundColor="blue.700"
 						borderColor="blue.500"
 						borderRadius="12px"
 						_invalid={{
 							border: '2px solid #E53E3E',
 							boxShadow: 'none',
 						}}
-						_focus={{
+						_hover={{
 							border: '2px solid',
 							borderColor: 'blue.800',
+							boxShadow: 'none',
+						}}
+						_focus={{
+							border: '2px solid',
+							borderColor: 'teal.500',
 							boxShadow: 'none',
 						}}
 						{...rest}
@@ -114,7 +118,7 @@ export const InputText = React.forwardRef<null, IInputProps>(
 							cursor={'pointer'}
 							height={'100%'}
 							onClick={() => setShowPassword(!showPassword)}>
-							<AiFillEye />
+							<AiFillEye color="white" />
 						</InputRightElement>
 					) : null}
 				</InputGroup>

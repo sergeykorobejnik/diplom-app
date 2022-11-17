@@ -18,6 +18,7 @@ function* workerSignUp(action: ReturnType<typeof reqSingUp>) {
 		console.log(res);
 		if (res.success) {
 			yield put(reqSingUpSuccess(res.value));
+			History.push('/');
 		} else {
 			yield put(reqSingUpError());
 		}

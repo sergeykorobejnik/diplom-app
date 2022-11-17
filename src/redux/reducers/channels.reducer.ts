@@ -26,9 +26,13 @@ const channelsReducer = createSlice({
 			state.usersByTag.loading = false;
 			state.usersByTag.users = action.payload;
 		},
+		clearUsersByTag(state) {
+			state.usersByTag.users = [];
+		},
 	},
 });
 
-export const { setUsersByTag, setUsersByTagSuccess } = channelsReducer.actions;
+export const { setUsersByTag, setUsersByTagSuccess, clearUsersByTag } =
+	channelsReducer.actions;
 
 export default channelsReducer.reducer;

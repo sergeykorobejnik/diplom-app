@@ -5,6 +5,7 @@ export type SignInPayload = {
 
 export type SignUpPayload = {
 	tag: string;
+	name: string;
 	email: string;
 	password: string;
 	repeatPassword: string;
@@ -20,6 +21,7 @@ export type User = {
 	id: string;
 	tag: string;
 	email: string;
+	name: string;
 	avatar: null | string;
 	token: string;
 	streamToken: string;
