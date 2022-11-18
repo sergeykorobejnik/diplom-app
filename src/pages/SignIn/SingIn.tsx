@@ -60,7 +60,7 @@ const SingIn: React.FC<SingInProps> = ({
 					w="100%"
 					type="submit"
 					isLoading={loading}>
-					Sing Up
+					Sing In
 				</Button>
 			</form>
 			<Link
