@@ -42,7 +42,7 @@ const SignUp: React.FC<SignUpProps> = ({
 			borderRadius={20}
 			p="50px 100px">
 			<Heading color="white" alignSelf="center" mb="48px">
-				Sign in
+				Sign Up
 			</Heading>
 			<form
 				onSubmit={handleSubmit(onSubmit, errors =>
@@ -74,7 +74,7 @@ const SignUp: React.FC<SignUpProps> = ({
 					/>
 					<InputText
 						{...register('repeatPassword')}
-						label="confirm Password"
+						label="confirm password"
 						isPassword
 						leftIcon={<MdPassword color="white" />}
 					/>
